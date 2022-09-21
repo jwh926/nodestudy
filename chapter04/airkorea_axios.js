@@ -1,6 +1,6 @@
 const path = require('path');
 const dotenv = require('dotenv');
-dotenv.config({path: path.resolve(__dirname, "../../.env")});
+dotenv.config({path: path.resolve(__dirname, "./.env")});
 const morgan = require("morgan");
 const express = require("express");
 const axios = require("axios");
@@ -16,24 +16,31 @@ app.get("/airkorea/", async (req, res) => {
 	const serviceKey = process.env.airServiceKey;
 	const airUrl =
 		"http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
+	let numOfRows = "1";
+	let pageNo = "1";
+	let dataTerm = "DAILY";
+	let ver = "1.3";
+	let stationName = "마포구";
+	let returnType = "json";
+
 	let params = encodeURI("serviceKey") + "=" + serviceKey;
-	params += "&" + encodeURI("numOfRows") + "=" + encodeURI("1");
-	params += "&" + encodeURI("pageNo") + "=" + encodeURI("1");
-	params += "&" + encodeURI("dataTerm") + "=" + encodeURI("DAILY");
-	params += "&" + encodeURI("ver") + "=" + encodeURI("1.3");
-	params += "&" + encodeURI("stationName") + "=" + encodeURI("마포구");
-	params += "&" + encodeURI("returnType") + "=" + encodeURI("json");
+	params += "&" + encodeURI("numOfRows") + "=" + encodeURI(numOfRows);
+	params += "&" + encodeURI("pageNo") + "=" + encodeURI(pageNo);
+	params += "&" + encodeURI("dataTerm") + "=" + encodeURI(dataTerm);
+	params += "&" + encodeURI("ver") + "=" + encodeURI(ver);
+	params += "&" + encodeURI("stationName") + "=" + encodeURI(stationName);
+	params += "&" + encodeURI("returnType") + "=" + encodeURI(returnType);
 
 	const url = airUrl + params;
 
 	try {
 		const result = await axios.get(url);
-		console.log(result);
 		const airItem = {
-			"location": result.data.ArpltnInforInqireSvcVo["stationName"],
-			"time": result.data.list[0]["dataTime"],
-			"pm10": result.data.list[0]["pm10Value"],
-			"pm25": result.data.list[0]["pm25Value"],
+			// "location": result.data.ArpltnInforInqireSvcVo["stationName"],
+			"location": stationName,
+			"time": result.data.response.body.items[0]["dataTime"],
+			"pm10": result.data.response.body.items[0]["pm10Value"],
+			"pm25": result.data.response.body.items[0]["pm25Value"],
 		};
 		const badAir = [];
 
@@ -53,7 +60,8 @@ app.get("/airkorea/", async (req, res) => {
 			badAir.push("bad");
 		}
 
-		res.send("location: ${airItem.location}, time: ${airItem.time}<br> 미세먼지 ${badAir[0]} 초미세먼지 ${badAir[1]}");
+		res.send(`location: ${airItem.location}, time: ${airItem.time}<br>
+		미세먼지: ${badAir[0]}, 초미세먼지: ${badAir[1]}`);
 	} catch (error) {
 		console.log(error);
 	}
@@ -61,4 +69,4 @@ app.get("/airkorea/", async (req, res) => {
 
 app.listen(app.get('port'), () => {
 	console.log("http://localhost:" + app.get('port'));
-})
+});
