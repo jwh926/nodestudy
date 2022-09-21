@@ -10,8 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.get('/naver/news', (req, res) => {
-	const client_id = "TrtAABXfXLQO6Kl8zNFt";
-	const client_secret = "_4jkfYSuIU";
+	const client_id = "";
+	const client_secret = "";
 	const api_url = "https://openapi.naver.com/v1/search/news?query=" + encodeURI('코스피');
 	const option = {};
 	const options = {

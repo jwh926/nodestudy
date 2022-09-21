@@ -20,7 +20,7 @@ app.get("/airkorea/", async (req, res) => {
 	let pageNo = "1";
 	let dataTerm = "DAILY";
 	let ver = "1.3";
-	let stationName = "마포구";
+	let stationName = "구로구";
 	let returnType = "json";
 
 	let params = encodeURI("serviceKey") + "=" + serviceKey;
@@ -61,7 +61,7 @@ app.get("/airkorea/", async (req, res) => {
 		}
 
 		res.send(`location: ${airItem.location}, time: ${airItem.time}<br>
-		미세먼지: ${badAir[0]}, 초미세먼지: ${badAir[1]}`);
+		미세먼지: ${badAir[0]}(${airItem.pm10}), 초미세먼지: ${badAir[1]}(${airItem.pm25})`);
 	} catch (error) {
 		console.log(error);
 	}
@@ -70,4 +70,3 @@ app.get("/airkorea/", async (req, res) => {
 app.listen(app.get('port'), () => {
 	console.log("http://localhost:" + app.get('port'));
 });
-
