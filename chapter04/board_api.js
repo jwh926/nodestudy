@@ -1,5 +1,8 @@
 const morgan = require('morgan');
+const url = require('url');
+const uuidAPIKey = require('uuid-apikey');
 const express = require('express');
+
 const app = express();
 
 app.set('port', process.env.PORT || 8080);
@@ -7,6 +10,11 @@ app.set('port', process.env.PORT || 8080);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+const key = {
+	apiKey: "QRQ7H2Q-TSFMVY6-Q29RXZY-4M35BBD",
+	uuid: "be2e788a-d65f-4df8-b893-8eff250655ad"
+};
 
 let boardList = [];
 let numOfBoard = 0;
@@ -60,6 +68,31 @@ app.delete('/board/:id', (req, res) => {
 	boardList.splice(idx, 1);
 
 	res.redirect('/board');
+});
+
+app.get('/board/:apikey/:type', (req, res) => {
+	let {type, apikey} = req.params;
+	const queryData = url.parse(req.url, true).query;
+
+	if(uuidAPIKey.isAPIKey(apikey) && uuidAPIKey.check(apikey, key.uuid)) {
+		if(type === 'search') {
+			const keyword = queryData.keyword;
+			const result = boardList.filter((e) => {
+				return e.title.includes(keyword);
+			});
+			res.send(result);
+		} else if(type === 'user') {
+			const user_id = queryData.user_id;
+			const result = boardList.filter((e) => {
+				return e.user_id === user_id;
+			});
+			res.send(result);
+		} else {
+			res.send('Wrong URL');
+		}
+	} else {
+		res.send('Wrong API key');
+	}
 });
 
 app.listen(app.get('port'), () => {
