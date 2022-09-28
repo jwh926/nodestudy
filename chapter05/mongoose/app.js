@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose
 	.connect("mongodb://127.0.0.1:27017/roadbook", {
-		useNewUrlParser: true
+		useNewUrlParser: true,
 	})
 	.then(() => {
 		console.log("Connected to MongoDB");
@@ -22,26 +22,31 @@ const customerSchema = mongoose.Schema(
 	}
 );
 
-const Customer = mongoose.model('Schema', customerSchema);
+const Customer = mongoose.model("Schema", customerSchema);
 
-// const customer1 = new Customer({name: '홍길동', age: 30, sex: '남'});
+// create
+const customer1 = new Customer({ name: "홍길동", age: 30, sex: "남" });
+customer1
+	.save()
+	.then(() => {
+		console.log(customer1);
+	})
+	.catch((err) => {
+		console.log("Error: " + err);
+	});
 
-// customer1.save().then(() => {
-// 	console.log(customer1);
-// }).catch((err) => {
-// 	console.log('Error: ' + err);
-// });
-
+// read
 Customer.find((err, customer) => {
-	console.log('READ: Model.find()');
-	if(err) {
+	console.log("READ: Model.find()");
+	if (err) {
 		console.log(err);
 	} else {
 		console.log(customer);
 	}
 });
 
-Customer.findById({ _id: "63329e02f223980cfc08f39f" }, (err, customer) => {
+// update
+Customer.findById({ _id: "6333fc6dc61aeae743fc3ffd" }, (err, customer) => {
 	console.log("UPDATE: Model.findById");
 	if (err) {
 		console.log(err);
@@ -56,3 +61,11 @@ Customer.findById({ _id: "63329e02f223980cfc08f39f" }, (err, customer) => {
 		});
 	}
 });
+
+// Customer.remove({}, (err, output) => {
+// 	console.log("DELETE: Model.remove");
+// 	if (err) {
+// 		console.log(err);
+// 	}
+// 	console.log("Data deleted");
+// });
