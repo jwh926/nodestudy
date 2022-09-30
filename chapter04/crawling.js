@@ -22,7 +22,6 @@ getHtml().then(html => {
 			url: $(this).find('a').attr('href'),
 		};
 	});
-	
 	const data = ulList.filter(n => n.bookList);
 	return data;
 }).then(res => console.log(res));
