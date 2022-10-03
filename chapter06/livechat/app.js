@@ -1,12 +1,16 @@
 const http = require("http");
-const morgan = require('morgan');
+const morgan = require("morgan");
 const express = require("express");
 const app = express();
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 const server = http.Server(app);
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+	cors: {
+		origin: "*",
+	},
+});
 let users = [];
 
 server.listen(8080, () => {
