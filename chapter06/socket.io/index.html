@@ -10,11 +10,11 @@
 
 <body>
 	<div>web socket</div>
-	<script src="/socket.io/socket.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		const socket = io.connect("http://localhost:8080", {
 			path: "/socket.io",
-			// transports: ["websocket"],
+			transports: ["websocket"],
 		});
 		socket.on("from server", (data) => {
 			console.log(data);

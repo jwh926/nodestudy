@@ -7,7 +7,7 @@ module.exports = (server) => {
 		const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 		console.log(`New client: ${ip}, socket.id: ${socket.id}`);
 		socket.on("disconnect", () => {
-			console.log(`Client out: ${ip}, socket.id: ${socked.id}`);
+			console.log(`Client out: ${ip}, socket.id: ${socket.id}`);
 			clearInterval(socket.interval);
 		});
 
