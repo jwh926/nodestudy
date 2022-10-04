@@ -16,7 +16,7 @@ getHtml().then(html => {
 	const $ = cheerio.load(html.data);
 	const $bodyList = $("div#searchList ol").children("li");
 
-	$bodyList.each(function(i, elem) {
+	$bodyList.each((i, elem) => {
 		ulList[i] = {
 			bookList: $(this).find('a').text(),
 			url: $(this).find('a').attr('href'),

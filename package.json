@@ -1,7 +1,7 @@
 {
   "name": "nodestudy",
   "version": "1.0.0",
-  "description": "",
+  "description": "Node.js로 서버 만들기",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,8 +12,10 @@
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "express-session": "^1.17.3",
     "mongoose": "^6.6.2",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
@@ -22,9 +24,19 @@
     "sequelize": "^6.23.1",
     "sequelize-cli": "^6.4.1",
     "session": "^0.1.0",
-    "uuid-apikey": "^1.5.3"
+    "socket.io": "^4.5.2",
+    "uuid-apikey": "^1.5.3",
+    "ws": "^8.9.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwh926/nodestudy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jwh926/nodestudy/issues"
+  },
+  "homepage": "https://github.com/jwh926/nodestudy#readme"
 }
